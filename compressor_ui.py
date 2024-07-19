@@ -13,6 +13,7 @@ class GUI:
         self.root.configure(background='')
         self.root.minsize(800, 600)
         self.root.maxsize(800, 600)
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing_window)
 
         self.file_path = None
         self.file_dir = None
@@ -40,7 +41,7 @@ class GUI:
         self.MenuBar = Menu(self.root)
         self.MenuBar.add_cascade(label="Encode", command=self.compressor_gui)
         self.MenuBar.add_cascade(label="Decode", command=self.decompressor_gui)
-        self.MenuBar.add_cascade(label='Exit', command=exit)
+        self.MenuBar.add_cascade(label='Exit', command=self.on_closing_window)
         self.root.config(menu=self.MenuBar)
         self.compressor_gui()
 
@@ -365,16 +366,6 @@ class GUI:
         self.inputFile.delete("1.0", "end")
         self.inputLocation.delete("1.0", "end")
 
-
-root = Tk()
-comp = GUI(root)
-
-
-def on_closing_window():
-    if messagebox.askokcancel("Quit", "Do you want to quit?"):
-        root.destroy()
-
-
-root.protocol("WM_DELETE_WINDOW", on_closing_window)
-
-root.mainloop()
+    def on_closing_window(self):
+        if messagebox.askokcancel("Quit", "Do you want to quit?"):
+            self.root.destroy()
